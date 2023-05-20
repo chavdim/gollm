@@ -1,7 +1,9 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/chavdim/gollm)](https://goreportcard.com/report/github.com/chavdim/gollm)
 
 # GoLLM
-Cli wrapper for LLM apis. (currently only supports openAI chat API) 
+Cli wrapper for LLM apis. (currently only supports openAIs chat API) 
+
+![t-rec_1](https://github.com/chavdim/gollm/assets/19467395/bd3032ad-396c-4df2-988d-e665a214ee88)
 
 # Notes
 - Expects OpenAIs api key to be set as an environment variable `OPENAI_API_KEY`. see https://platform.openai.com/account/api-keys
