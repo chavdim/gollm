@@ -1,4 +1,3 @@
-# gollm
 [![Go Report Card](https://goreportcard.com/badge/github.com/chavdim/gollm)](https://goreportcard.com/report/github.com/chavdim/gollm)
 
 # GoLLM
