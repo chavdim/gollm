@@ -2,7 +2,7 @@ package util
 
 import (
 	"bufio"
-	"main/drivers"
+	"github.com/chavdim/gollm/drivers"
 	"os"
 )
 

@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/chavdim/gollm/drivers"
+	"github.com/chavdim/gollm/util"
 	openai "github.com/sashabaranov/go-openai"
-	"main/drivers"
-	_ "main/drivers"
-	"main/util"
 	"os"
 	"strings"
 )
@@ -29,7 +28,7 @@ func main() {
 	for {
 		i++
 		fmt.Printf("### interaction: %d\n", i)
-		prompt := drivers.ChatCompletionRequest{}
+		var prompt drivers.ChatCompletionRequest
 		if len(initialPrompt) > 0 && i == 1 {
 			prompt = drivers.ChatCompletionRequest{Prompt: initialPrompt}
 		} else {
