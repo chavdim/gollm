@@ -14,8 +14,8 @@ type ChatClient struct {
 	messageHistory []drivers.ChatCompletionRequest
 }
 
-func (c *ChatClient) InitClient(secretKey string) {
-	c.client = openai.NewClient(secretKey)
+func (c *ChatClient) InitClient(client *openai.Client) {
+	c.client = client
 }
 
 func (c *ChatClient) StartChatLoop(initialPrompt string) {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/chavdim/gollm/client"
+	"github.com/sashabaranov/go-openai"
 	"os"
 	"strings"
 )
@@ -10,7 +11,8 @@ func main() {
 	var secretKey = attainApiKey()
 	var initialPrompt = getInitialPrompt()
 	var chatClient = client.ChatClient{}
-	chatClient.InitClient(secretKey)
+	var openAiClient = openai.NewClient(secretKey)
+	chatClient.InitClient(openAiClient)
 	chatClient.StartChatLoop(initialPrompt)
 }
 
