@@ -10,7 +10,7 @@ Cli wrapper for LLM apis. (currently only supports openAIs chat API)
 - Model, token limits and interactions limits are currently hardcoded. respectively GPT3.5, 500, 5
   - Interactions are currently limited to 5 for safety. (loops and billed apis are a scary combination)
 
-# Instalation
+# Installation
 ```
 go get github.com/chavdim/gollm
 ```
