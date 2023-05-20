@@ -1,4 +1,4 @@
-module main
+module github.com/chavdim/gollm
 
 go 1.20
 
