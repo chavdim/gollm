@@ -9,5 +9,9 @@ Cli wrapper for LLM apis. (currently only supports openAI APIs)
 go get github.com/chavdim/gollm
 ```
 # Usage
->gollm hello can you tell when will AI overtake humans in intelligence?
-
+## start chat
+>gollm 
+## start chat with question
+>gollm how to assign a variable in golang
+> 
+>gollm "hello can you tell when will AI overtake humans in intelligence?"

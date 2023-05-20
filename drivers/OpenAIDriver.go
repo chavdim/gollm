@@ -8,6 +8,9 @@ import (
 	"io"
 )
 
+const maxTokens = 500
+const model = openai.GPT3Dot5Turbo
+
 type ChatCompletionRequest struct {
 	Prompt string
 }
@@ -26,8 +29,8 @@ func OpenAIStreamedResponse(client *openai.Client, request []ChatCompletionReque
 	stream, err := client.CreateChatCompletionStream(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model:     openai.GPT3Dot5Turbo,
-			MaxTokens: 100,
+			Model:     model,
+			MaxTokens: maxTokens,
 			Messages:  messages,
 			Stream:    true,
 		},
