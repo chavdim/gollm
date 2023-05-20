@@ -4,9 +4,9 @@
 Cli wrapper for LLM apis. (currently only supports openAI chat API) 
 
 # Notes
-- Interactions are currently limited to 5 for safety.
 - Expects OpenAIs api key to be set as an environment variable `OPENAI_API_KEY`. see https://platform.openai.com/account/api-keys
 - Model, token limits and interactions limits are currently hardcoded. respectively GPT3.5, 500, 5
+  - Interactions are currently limited to 5 for safety. (loops and billed apis are a scary combination)
 
 # Instalation
 ```

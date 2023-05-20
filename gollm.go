@@ -10,8 +10,6 @@ import (
 )
 
 func main() {
-
-	// get the first prompt if passed
 	var initialPrompt = ""
 	if len(os.Args) > 1 {
 		initialPrompt = strings.Join(os.Args, " ")
@@ -19,7 +17,7 @@ func main() {
 
 	var secretKey, exists = os.LookupEnv("OPENAI_API_KEY")
 	if !exists {
-		panic("Key not found")
+		panic("Key not found. Set OPENAI_API_KEY env var see https://platform.openai.com/account/api-keys")
 	}
 	client := openai.NewClient(secretKey)
 
