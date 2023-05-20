@@ -39,8 +39,8 @@ func main() {
 		prompts = append(prompts, prompt)
 		drivers.OpenAIStreamedResponse(client, prompts)
 
-		// for safety, only allow 3 interactions
-		if i > 3 {
+		// for safety, limit interactions
+		if i == 5 {
 			break
 		}
 	}
