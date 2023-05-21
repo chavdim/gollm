@@ -2,6 +2,8 @@ name: goreleaser
 
 on:
   push:
+    branches:
+      - "main"
     tags:
       - "*"
 
@@ -14,20 +16,20 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       -
         name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: 1.20
       -
         name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v4
         with:
           distribution: goreleaser
           version: ${{ env.GITHUB_REF_NAME }}
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: :${{ secrets.PUBLISHER_TOKEN }}
