@@ -11,6 +11,11 @@ Cli wrapper for LLM apis. (currently only supports openAIs chat API)
   - Interactions are currently limited to 5 for safety. (loops and billed apis are a scary combination)
 
 # Installation
+## homebrew
+```
+wip   
+```
+## go
 ```
 go get github.com/chavdim/gollm
 ```
