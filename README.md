@@ -13,7 +13,7 @@ Cli wrapper for LLM apis. (currently only supports openAIs chat API)
 # Installation
 ## homebrew
 ```
-wip   
+brew install chavdim/taps/gollm   
 ```
 ## go
 ```
