@@ -10,8 +10,9 @@ import (
 const interactionLimit = 5
 
 type ChatClient struct {
-	client         *openai.Client
-	messageHistory []drivers.ChatCompletionRequest
+	client          *openai.Client
+	requestHistory  []drivers.ChatCompletionRequest
+	responseHistory []drivers.ChatCompletionResponse
 }
 
 func (c *ChatClient) InitClient(client *openai.Client) {
@@ -31,11 +32,12 @@ func (c *ChatClient) StartChatLoop(initialPrompt string) {
 			prompt = util.GetInputOrErr()
 		}
 
-		c.messageHistory = append(c.messageHistory, prompt)
-		drivers.OpenAIStreamedResponse(c.client, c.messageHistory)
-
+		c.requestHistory = append(c.requestHistory, prompt)
+		var response, err = drivers.OpenAIStreamedResponse(c.client, c.requestHistory, c.responseHistory)
+		c.responseHistory = append(c.responseHistory, response)
+		fmt.Printf("\n\n")
 		// for safety, limit interactions
-		if i == interactionLimit {
+		if i == interactionLimit || err != nil {
 			break
 		}
 	}
