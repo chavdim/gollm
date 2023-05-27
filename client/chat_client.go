@@ -7,7 +7,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-const interactionLimit = 5
+const interactionLimit = 100
 
 type ChatClient struct {
 	client          *openai.Client

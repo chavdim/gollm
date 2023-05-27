@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-const maxTokens = 500
+const maxTokens = 1000
 const model = openai.GPT3Dot5Turbo
 
 type ChatCompletionRequest struct {
@@ -21,17 +21,18 @@ type ChatCompletionResponse struct {
 
 func OpenAIStreamedResponse(client *openai.Client, requestHistory []ChatCompletionRequest, responseHistory []ChatCompletionResponse) (ChatCompletionResponse, error) {
 	var messages []openai.ChatCompletionMessage
-	for i := 0; i < len(requestHistory)+len(responseHistory); i++ {
+	totalMessages := len(requestHistory) + len(responseHistory)
+	for i := 0; i < totalMessages; i++ {
 		var v string
+		var message openai.ChatCompletionMessage
 		if i%2 == 0 {
 			v, requestHistory = requestHistory[0].Prompt, requestHistory[1:]
+			message = openai.ChatCompletionMessage{Role: openai.ChatMessageRoleUser, Content: v}
 		} else {
 			v, responseHistory = responseHistory[0].Response, responseHistory[1:]
+			message = openai.ChatCompletionMessage{Role: openai.ChatMessageRoleAssistant, Content: v}
 		}
-		messages = append(messages, openai.ChatCompletionMessage{
-			Role:    openai.ChatMessageRoleUser,
-			Content: v,
-		})
+		messages = append(messages, message)
 	}
 
 	stream, err := client.CreateChatCompletionStream(

@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	client.SetupClient()
 	var secretKey = attainApiKey()
 	var initialPrompt = getInitialPrompt()
 	var chatClient = client.ChatClient{}
