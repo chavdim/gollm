@@ -4,23 +4,27 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/chavdim/gollm/domain"
 	"github.com/sashabaranov/go-openai"
 	"io"
 	"strings"
 )
 
 const maxTokens = 1000
-const model = openai.GPT3Dot5Turbo
 
-type ChatCompletionRequest struct {
-	Prompt string
-}
-type ChatCompletionResponse struct {
-	Response string
-}
-
-func OpenAIStreamedResponse(client *openai.Client, requestHistory []ChatCompletionRequest, responseHistory []ChatCompletionResponse) (ChatCompletionResponse, error) {
+func OpenAIStreamedResponse(
+	client *openai.Client,
+	config domain.Config,
+	requestHistory []domain.ChatCompletionRequest,
+	responseHistory []domain.ChatCompletionResponse,
+) (domain.ChatCompletionResponse, error) {
 	var messages []openai.ChatCompletionMessage
+	// apply persona if exists
+	if len(config.PersonaDescription) > 0 {
+		message := openai.ChatCompletionMessage{Role: openai.ChatMessageRoleSystem, Content: config.PersonaDescription}
+		messages = append(messages, message)
+	}
+	// apply all previous prompts as responses
 	totalMessages := len(requestHistory) + len(responseHistory)
 	for i := 0; i < totalMessages; i++ {
 		var v string
@@ -38,7 +42,7 @@ func OpenAIStreamedResponse(client *openai.Client, requestHistory []ChatCompleti
 	stream, err := client.CreateChatCompletionStream(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model:     model,
+			Model:     config.Model,
 			MaxTokens: maxTokens,
 			Messages:  messages,
 			Stream:    true,
@@ -46,7 +50,7 @@ func OpenAIStreamedResponse(client *openai.Client, requestHistory []ChatCompleti
 	)
 	if err != nil {
 		fmt.Printf("ChatCompletionStream error: %v\n", err)
-		return ChatCompletionResponse{""}, err
+		return domain.ChatCompletionResponse{""}, err
 	}
 	defer stream.Close()
 	var chosenResponses []string
@@ -56,14 +60,14 @@ func OpenAIStreamedResponse(client *openai.Client, requestHistory []ChatCompleti
 
 		if errors.Is(err, io.EOF) {
 			var result = strings.Join(chosenResponses, "")
-			return ChatCompletionResponse{result}, nil
+			return domain.ChatCompletionResponse{result}, nil
 		}
 		var chosen = response.Choices[0].Delta.Content
 		chosenResponses = append(chosenResponses, chosen)
 
 		if err != nil {
 			fmt.Printf("\nStream error: %v\n", err)
-			return ChatCompletionResponse{""}, err
+			return domain.ChatCompletionResponse{""}, err
 		}
 		fmt.Print(chosen)
 	}

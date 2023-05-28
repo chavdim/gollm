@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"github.com/chavdim/gollm/client"
 	"github.com/sashabaranov/go-openai"
 	"os"
@@ -8,18 +9,30 @@ import (
 )
 
 func main() {
-	client.SetupClient()
+	var forceConfigInitialization = getCleanConfigFlag()
+	var config = client.SetupClient(forceConfigInitialization)
+	var initialPrompt = getInitialPrompt(forceConfigInitialization)
 	var secretKey = attainApiKey()
-	var initialPrompt = getInitialPrompt()
 	var chatClient = client.ChatClient{}
 	var openAiClient = openai.NewClient(secretKey)
-	chatClient.InitClient(openAiClient)
+	chatClient.InitClient(openAiClient, config)
 	chatClient.StartChatLoop(initialPrompt)
 }
 
-func getInitialPrompt() string {
+func getCleanConfigFlag() bool {
+	// Check if the clean flag is set
+	cleanFlag := flag.Bool("clean", false, "run config initialization even if config file exists")
+	flag.Parse()
+	var forceConfigInitialization = false
+	if *cleanFlag {
+		forceConfigInitialization = true
+	}
+	return forceConfigInitialization
+}
+
+func getInitialPrompt(forceConfigInitialization bool) string {
 	var initialPrompt = ""
-	if len(os.Args) > 1 {
+	if len(os.Args) > 1 && forceConfigInitialization == false {
 		initialPrompt = strings.Join(os.Args, " ")
 	}
 	return initialPrompt

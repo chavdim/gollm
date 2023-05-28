@@ -2,15 +2,15 @@ package util
 
 import (
 	"bufio"
-	"github.com/chavdim/gollm/drivers"
+	"github.com/chavdim/gollm/domain"
 	"os"
 )
 
-func GetInputOrErr() drivers.ChatCompletionRequest {
+func GetInputOrErr() domain.ChatCompletionRequest {
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 	if err != nil {
 		panic(err)
 	}
-	return drivers.ChatCompletionRequest{Prompt: input}
+	return domain.ChatCompletionRequest{Prompt: input}
 }
